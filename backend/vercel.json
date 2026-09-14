@@ -5,21 +5,16 @@
       "schedule": "0 1 * * *"
     }
   ],
-  "services": {
-    "toolnew-daily-content-api": {
-      "root": ".",
-      "entrypoint": "server.ts",
-      "framework": "express",
-      "buildCommand": "npx prisma generate && npm run build"
+  "buildCommand": "npx prisma generate && npm run build",
+  "functions": {
+    "api/index.ts": {
+      "maxDuration": 300
     }
   },
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": {
-        "type": "service",
-        "service": "toolnew-daily-content-api"
-      }
+      "destination": "/api/index"
     }
   ]
 }
