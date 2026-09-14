@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Customer {
+  id                        Int            @id @default(autoincrement())
+  name                      String
+  contactName               String?
+  facebookPageId            String?
+  facebookPageName          String?
+  facebookToken             String?
+  ayrshareProfileKey        String?
+  tiktokOpenId              String?
+  tiktokProfileName         String?
+  tiktokAvatarUrl           String?
+  tiktokAccessToken         String?
+  tiktokRefreshToken        String?
+  tiktokAccessTokenExpiresAt DateTime?
+  tiktokRefreshTokenExpiresAt DateTime?
+  facebookConnected         Boolean        @default(false)
+  tiktokConnected           Boolean        @default(false)
+  tiktokReconnectRequired   Boolean        @default(false)
+  facebookReconnectRequired Boolean        @default(false)
+  createdAt                 DateTime       @default(now())
+  updatedAt                 DateTime       @updatedAt
+  posts                     Post[]
+  facebookPages             FacebookPage[]
+  contentReferences         ContentReference[]
+  contentDrafts             ContentDraft[]
+}
+
+model ContentReference {
+  id               Int      @id @default(autoincrement())
+  customerId       Int
+  customer         Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  platform         String
+  sourceUrl        String
+  sourceTitle      String
+  sourceImageUrl   String?
+  originalImageUrl String?
+  views            Int?
+  reactions        Int?
+  comments         Int?
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([platform])
+}
+
+model ContentDraft {
+  id            Int      @id @default(autoincrement())
+  customerId    Int
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  referenceIds  String   @default("[]")
+  sheetRow      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([customerId])
+}
+
+model FacebookPage {
+  id              Int      @id @default(autoincrement())
+  customerId      Int
+  customer        Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  pageId          String
+  pageName        String
+  pageAccessToken String
+  connected       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([customerId, pageId])
+  @@index([customerId])
+  @@index([pageId])
+}
+
+model Post {
+  id              Int       @id @default(autoincrement())
+  customerId      Int
+  customer        Customer  @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  title           String?
+  content         String
+  platforms       String
+  facebookPageIds String    @default("[]")
+  mediaUrls       String
+  hashtags        String?
+  scheduledTime   DateTime?
+  publishedTime   DateTime?
+  status          String    @default("draft")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  logs            PostLog[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([scheduledTime])
+}
+
+model PostLog {
+  id             Int      @id @default(autoincrement())
+  postId         Int
+  post           Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  platform       String
+  status         String
+  errorMessage   String?
+  externalPostId String?
+  externalUrl    String?
+  attemptedAt    DateTime @default(now())
+
+  @@index([postId])
+  @@index([platform])
+  @@index([status])
+}

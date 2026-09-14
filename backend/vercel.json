@@ -1,0 +1,25 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/daily-content",
+      "schedule": "0 1 * * *"
+    }
+  ],
+  "services": {
+    "toolnew-daily-content-api": {
+      "root": ".",
+      "entrypoint": "server.ts",
+      "framework": "express",
+      "buildCommand": "npx prisma generate && npm run build"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "type": "service",
+        "service": "toolnew-daily-content-api"
+      }
+    }
+  ]
+}

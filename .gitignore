@@ -1,0 +1,16 @@
+node_modules
+dist
+backend/dist
+frontend/dist
+.env
+backend/.env
+frontend/.env
+backend/.vercel
+frontend/.vercel
+.vercel
+.DS_Store
+tmp
+web/.vite
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
+*.log
