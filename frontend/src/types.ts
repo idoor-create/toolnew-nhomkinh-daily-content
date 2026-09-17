@@ -113,3 +113,43 @@ export type ContentDraft = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type DailyContentSettings = {
+  id: number;
+  enabled: boolean;
+  rowCount: number;
+  businessContext: string;
+  sourceSeeds: SourceSeed[];
+  updatedAt: string | null;
+};
+
+export type SourceSeed = {
+  platform: "facebook" | "tiktok" | "website" | "other";
+  sourceUrl: string;
+  sourceTitle: string;
+  imageUrl: string;
+  notes: string;
+};
+
+export type DailyContentRun = {
+  id: number;
+  day: string;
+  rowIndex: number;
+  status: "running" | "succeeded" | "failed";
+  message: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type DailyContentStatus = {
+  settings: DailyContentSettings;
+  runs: DailyContentRun[];
+  sheetUrl: string;
+  sheetName: string;
+  schedule: string;
+  connections: {
+    ai: boolean;
+    google: boolean;
+    cron: boolean;
+  };
+};

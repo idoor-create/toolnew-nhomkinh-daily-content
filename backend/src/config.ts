@@ -31,6 +31,11 @@ export const config = {
   port: numberEnv("PORT", 3000),
   jwtSecret: requiredEnv("JWT_SECRET"),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  admin: {
+    email: process.env.ADMIN_EMAIL?.trim().toLowerCase() || "",
+    password: process.env.ADMIN_PASSWORD || "",
+    name: process.env.ADMIN_NAME?.trim() || "Admin"
+  },
   frontendOrigins: (process.env.FRONTEND_ORIGIN || "http://localhost:5173,http://127.0.0.1:5173")
     .split(",")
     .map((origin) => origin.trim())

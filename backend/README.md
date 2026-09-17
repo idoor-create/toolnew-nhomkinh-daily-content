@@ -1,6 +1,6 @@
 # Backend — Post scheduler API
 
-Express + TypeScript + Prisma + SQLite + JWT.
+Express + TypeScript + Prisma + PostgreSQL + JWT.
 
 Backend quản lý theo khách hàng và cấu hình kênh riêng cho từng khách:
 
@@ -18,12 +18,12 @@ npm run dev
 
 http://localhost:3000
 
-`prisma migrate dev` can be used where Prisma's schema engine runs normally. In this workspace, `npm run db:setup` is the reliable SQLite setup path and applies the checked-in migration SQL.
+`npm run db:setup` chạy `prisma migrate deploy`. Local/dev có thể dùng `npx prisma migrate dev` hoặc `npx create-db` để lấy `DATABASE_URL` Postgres tạm.
 
 ## Env
 
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/postgres?sslmode=require"
 HOST="127.0.0.1"
 PORT=3000
 JWT_SECRET="change-me"

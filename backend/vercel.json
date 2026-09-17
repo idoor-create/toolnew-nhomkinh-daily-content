@@ -8,12 +8,18 @@
   "buildCommand": "npx prisma generate && npm run build",
   "functions": {
     "api/index.ts": {
+      "maxDuration": 60
+    },
+    "api/cron/daily-content.js": {
+      "maxDuration": 300
+    },
+    "api/cron/daily-content-row.js": {
       "maxDuration": 300
     }
   },
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!api/cron/).*)",
       "destination": "/api/index"
     }
   ]

@@ -11,9 +11,13 @@ import { integrationsRouter } from "./modules/integrations/integrations.routes.j
 import { postsRouter } from "./modules/posts/posts.routes.js";
 import { contentRouter } from "./modules/content/content.routes.js";
 import { cronRouter } from "./modules/cron/cron.routes.js";
+import { dailySettingsRouter } from "./modules/content/daily-settings.routes.js";
 
 export function createApp() {
   const app = express();
+
+  // Vercel (and other reverse proxies) set X-Forwarded-For; required by express-rate-limit.
+  app.set("trust proxy", 1);
 
   app.use(helmet());
   app.use(
@@ -23,6 +27,14 @@ export function createApp() {
     })
   );
   app.use(express.json({ limit: "1mb" }));
+
+  app.get("/", (_req, res) => {
+    res.json({
+      ok: true,
+      service: "toolnew-nhomkinh-daily-content-api",
+      health: "/health"
+    });
+  });
 
   app.get("/health", (_req, res) => {
     res.json({ status: "ok" });
@@ -44,6 +56,7 @@ export function createApp() {
   app.use("/api/customers", requireAuth, customersRouter);
   app.use("/api/posts", requireAuth, postsRouter);
   app.use("/api/content", requireAuth, contentRouter);
+  app.use("/api/daily-settings", requireAuth, dailySettingsRouter);
   app.use("/api/cron", cronRouter);
 
   app.use(notFoundHandler);

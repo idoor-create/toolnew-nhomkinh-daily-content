@@ -1,4 +1,14 @@
-import type { ApiError, ContentDraft, ContentReference, Customer, CustomerInput, Post, User } from "./types";
+import type {
+  ApiError,
+  ContentDraft,
+  ContentReference,
+  Customer,
+  CustomerInput,
+  DailyContentSettings,
+  DailyContentStatus,
+  Post,
+  User
+} from "./types";
 
 const TOKEN_KEY = "scheduler.token";
 
@@ -14,7 +24,9 @@ export function setToken(token: string | null) {
   }
 }
 
-const baseUrl = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") || "http://localhost:3000";
+const baseUrl =
+  (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ||
+  (import.meta.env.DEV ? "http://localhost:3000" : "");
 
 export class HttpError extends Error {
   status: number;
@@ -105,5 +117,14 @@ export const api = {
     request<{ draft: ContentDraft }>("/api/content/generate", {
       method: "POST",
       body: JSON.stringify(body)
-    })
+    }),
+  dailyContentStatus: () => request<DailyContentStatus>("/api/daily-settings"),
+  updateDailyContentSettings: (body: Pick<DailyContentSettings, "enabled" | "rowCount" | "businessContext" | "sourceSeeds">) =>
+    request<{ settings: DailyContentSettings }>("/api/daily-settings", {
+      method: "PUT",
+      body: JSON.stringify(body)
+    }),
+  runDailyContentNow: () => request<{ ok: boolean; triggered?: number; rowIndexes?: number[]; message?: string; runKey?: string }>("/api/daily-settings/run-now", {
+    method: "POST"
+  })
 };

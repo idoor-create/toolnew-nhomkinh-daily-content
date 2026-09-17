@@ -1,4 +1,4 @@
-import { CalendarDays, Lightbulb, LogOut, RadioTower } from "lucide-react";
+import { Bot, LogOut } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth";
 
@@ -8,32 +8,23 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
   }`;
 
 export function Layout() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <div className="min-h-svh">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
-            <p className="text-sm font-semibold text-slate-900">Lịch đăng bài</p>
-            <p className="text-xs text-slate-500">Quản lý Page, profile và lịch đăng đa kênh</p>
+            <p className="text-sm font-semibold text-slate-900">Daily AI</p>
+            <p className="text-xs text-slate-500">Quản trị nguồn AI và cập nhật Google Sheet</p>
           </div>
           <nav className="flex flex-wrap items-center gap-2" aria-label="Chính">
-            <NavLink to="/" className={linkClass} end>
-              <CalendarDays className="size-4" aria-hidden />
-              Lịch
-            </NavLink>
-            <NavLink to="/channels" className={linkClass}>
-              <RadioTower className="size-4" aria-hidden />
-              Kênh
-            </NavLink>
-            <NavLink to="/content-lab" className={linkClass}>
-              <Lightbulb className="size-4" aria-hidden />
-              Content Lab
+            <NavLink to="/daily-content" className={linkClass}>
+              <Bot className="size-4" aria-hidden />
+              Daily AI
             </NavLink>
           </nav>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-600">{user?.name}</span>
             <button
               type="button"
               onClick={logout}
