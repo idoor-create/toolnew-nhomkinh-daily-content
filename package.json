@@ -1,0 +1,24 @@
+{
+  "name": "toolnew-nhomkinh-daily-content",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "prisma generate --schema backend/prisma/schema.prisma",
+    "build": "prisma migrate deploy --schema backend/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "6.12.0",
+    "@vercel/functions": "^2.0.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "prisma": "6.12.0"
+  }
+}

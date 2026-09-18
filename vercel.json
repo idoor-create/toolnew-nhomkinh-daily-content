@@ -7,10 +7,11 @@
       "outputDirectory": "dist"
     },
     "backend": {
-      "root": "backend",
-      "entrypoint": "api/index.ts",
+      "root": ".",
+      "entrypoint": "backend/api/index.ts",
       "framework": "express",
-      "installCommand": "npm install"
+      "installCommand": "npm install",
+      "buildCommand": "npm run build"
     }
   },
   "rewrites": [
