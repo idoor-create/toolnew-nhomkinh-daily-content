@@ -3,8 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "prisma generate --schema backend/prisma/schema.prisma",
-    "build": "prisma migrate deploy --schema backend/prisma/schema.prisma"
+    "postinstall": "node node_modules/prisma/build/index.js generate --schema backend/prisma/schema.prisma",
+    "build": "node node_modules/prisma/build/index.js migrate deploy --schema backend/prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "6.12.0",
