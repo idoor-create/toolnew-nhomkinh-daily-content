@@ -5,20 +5,32 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "postinstall": "node node_modules/prisma/build/index.js generate --schema ../backend/prisma/schema.prisma",
     "build": "tsc -b && vite build && mkdir -p dist/privacy dist/server dist/.openai && cp dist/index.html dist/privacy/index.html && cp server/index.js dist/server/index.js && cp .openai/hosting.json dist/.openai/hosting.json",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@prisma/client": "6.12.0",
+    "@vercel/functions": "^2.0.0",
     "@fullcalendar/core": "^6.1.21",
     "@fullcalendar/daygrid": "^6.1.21",
     "@fullcalendar/interaction": "^6.1.21",
     "@fullcalendar/react": "^6.1.21",
     "@fullcalendar/timegrid": "^6.1.21",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^1.38.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.3"
+    "react-router-dom": "^7.18.3",
+    "zod": "^4.0.17",
+    "prisma": "6.12.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
